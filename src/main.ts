@@ -31,7 +31,21 @@ function init(): boolean {
       for (let i = 0; i < 5; i++) {
         const date = new Date(rockets[i].net);
         if (rockets[i].status === 1) {
-          
+          if (alarm === null) {
+            const falta = date.getTime() - new Date('2020-06-13 05:00:00').getTime();
+            if (falta < HOUR){
+              alarm = printMinutes(falta);
+            }
+            else if (falta < DAY){
+              alarm = printHours(falta);
+            }
+            else if (falta < WEEK){
+              alarm = printDays(falta);
+            }
+            else{
+              alarm = printWeeks(falta);
+            }
+          }
           console.log('✅ ' + date.toLocaleString() + ' - ' + rockets[i].name);
         } else {
           console.log('❌ ' + date.toLocaleString() + ' - ' + rockets[i].name);
@@ -43,29 +57,8 @@ function init(): boolean {
   return true;
 }
 
-function hasAlarm(falta: number): string{
-  let alarm = "";
-  if (alarm === null) {
-    const falta = Date.getTime() - new Date('2020-06-13 05:00:00').getTime();
-    if (falta < HOUR){
-      alarm = printMinutes(falta);
-    }
-    else if (falta < DAY){
-      alarm = printHours(falta);
-    }
-    else if (falta < WEEK){
-      alarm = printDays(falta);
-    }
-    else{
-      alarm = printWeeks(falta);
-    }
-  }
-
-  return alarm;
-}
-
 function printMinutes(falta: number) : string{
-  let alarm = "";
+  let alarm = ""
   alarm =
     'Alerta, próximo despegue en ' +
     Math.floor(falta / MIN) +
